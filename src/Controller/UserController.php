@@ -3,9 +3,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -45,6 +47,38 @@ class UserController extends Controller
                 'json', array('groups' => array('default'))
             )
         );
+    }
+
+
+
+    /**
+     * Deletes the given user by id
+     *
+     * @Route(
+     *     "user/delete/{id}",
+     *     methods={"DELETE"}
+     * )
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     * @param int $id
+     * @throws \Exception
+     * @return Response
+     */
+    public function deleteUserAction(Request $request, $id) {
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        if (null === $user) {
+            throw new \Exception('No such user');
+        }
+
+        $entityManager->remove($user);
+        $entityManager->flush();
+        $response = new Response();
+        $response->send();
+
+        return $response;
     }
 
 }
