@@ -1,3 +1,7 @@
+use orm
+
+
+
 # Symfony Auth Example
 
 This project is an example of a simple stateless auth system on Symfony 4.
@@ -34,7 +38,11 @@ expiresIn: {}
 
 ```
 
-* Use this generate token for accessing resources
+* Use ^^ this to generate token for accessing resources
+
+
+
+* getting your user data (use token returned in json from login)
 ```http request
 GET /user
 X-Auth-Token: {}
@@ -43,6 +51,26 @@ HTTP1/1 200 OK
 Content-Type: application/json
 user: {}
 ```
+
+
+* controller actions for ROLE_ADMIN permissions only (you need to have ROLE_ADMIN switched in db for your account)
+```http request - 
+GET https://127.0.0.1:8000/user/get/1
+Content-Type: application/json
+X-Auth-Token: {}
+
+```
+
+```http request - 
+DELETE https://127.0.0.1:8000/user/delete/2
+Content-Type: application/json
+X-Auth-Token: {}
+
+```
+
+
+
+
 
 # How to do that ?
 
