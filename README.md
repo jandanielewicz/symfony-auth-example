@@ -1,4 +1,4 @@
-use orm
+Use https://symfony.com/doc/current/doctrine.html documentation for creating classes.
 
 
 
