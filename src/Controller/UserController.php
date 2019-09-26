@@ -49,6 +49,30 @@ class UserController extends Controller
         );
     }
 
+    /**
+     * Returns the current user.
+     *
+     * @Route(
+     *     "user/get/{id}",
+     *     methods={"GET"}
+     * )
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @return Response
+     */
+    public function getUserByIdAction(Request $request, $id): Response
+    {
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+
+        return new Response(
+            $this->serializer->serialize(
+                $user,
+                'json', array('groups' => array('default'))
+            )
+        );
+    }
+
 
 
     /**
